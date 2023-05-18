@@ -1,1 +1,41 @@
-1234566
+#include <iostream>
+#define N 8
+using namespace std;
+float x[3] = { 1,1,1 };
+float z;
+float m[3] = { 1,1,1 };
+float si(float x[])
+{
+    if (x[1] == 1 || x[2] == 1)return 1;  //>>>>改&&為AND
+    return 0;
+}
+float ujm(float y)
+{
+    return 1.0 /( 1 +exp(-y));
+}
+float sin_m(float x[], float w[], int d = 3)
+{
+    float y = 0;
+    for (int i = 0; i < d; i++)y += x[i] * w[i];
+    return ujm(y);
+}
+int main()
+{
+    srand(time(NULL)); rand();
+    for (int i = 0; i < 7; i++)
+    {
+        x[1] = rand() % 2;
+        x[2] = rand() % 2;
+        z = sin_m(x, m);
+        m[0] += N*(si(x) - z) * x[0];
+        m[1] += N * (si(x) - z) * x[1];
+        m[2] += N * (si(x) - z) * x[2];
+    }
+    for (int i = 0; i < 20; i++)
+    {
+        x[1] = rand() % 2;
+        x[2] = rand() % 2;
+        z = sin_m(x, m);
+        cout << x[1] << "\t" << x[2] << "\t" << z<< "\t=>\t" << si(x) << "\n";
+    }
+}
